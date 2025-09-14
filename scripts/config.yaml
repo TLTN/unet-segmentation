@@ -1,0 +1,25 @@
+callbacks:
+  early_stopping:
+    mode: max
+    monitor: val_dice
+    patience: 10
+data:
+  image_dir: images
+  mask_dir: masks
+  processed_data_dir: data/processed
+  raw_data_dir: data/raw
+model:
+  input_size:
+  - 256
+  - 256
+  - 3
+paths:
+  logs_dir: logs
+  model_dir: models
+  results_dir: results
+training:
+  batch_size: 4
+  epochs: 20
+  learning_rate: 0.001
+  test_split: 0.1
+  validation_split: 0.2

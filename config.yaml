@@ -1,0 +1,39 @@
+augmentation:
+  fill_mode: nearest
+  height_shift_range: 0.05
+  horizontal_flip: true
+  rotation_range: 0.2
+  shear_range: 0.05
+  vertical_flip: false
+  width_shift_range: 0.05
+  zoom_range: 0.05
+callbacks:
+  early_stopping:
+    mode: max
+    monitor: val_dice
+    patience: 20
+  reduce_lr:
+    factor: 0.2
+    min_lr: 1.0e-07
+    patience: 10
+data:
+  image_dir: images
+  mask_dir: masks
+  processed_data_dir: data/processed
+  raw_data_dir: data/raw
+model:
+  architecture: unet
+  input_size:
+  - 256
+  - 256
+  - 3
+paths:
+  logs_dir: logs
+  model_dir: models
+  results_dir: results
+training:
+  batch_size: 8
+  epochs: 50
+  learning_rate: 0.0001
+  test_split: 0.1
+  validation_split: 0.2

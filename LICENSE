@@ -1,0 +1,49 @@
+## Sample Datasets
+
+### For Medical Segmentation:
+1. **ISIC Skin Lesion Dataset**
+2. **Lung Segmentation Dataset**
+3. **Cell Nuclei Segmentation**
+
+### For General Segmentation:
+1. **COCO Dataset** (subset)
+2. **Pascal VOC**
+3. **Cityscapes** (urban scenes)
+
+## Getting Sample Data
+
+### Option 1: Synthetic Data Generator
+```python
+# data/sample_data/synthetic_data_generator.py
+import numpy as np
+import cv2
+import os
+from tqdm import tqdm
+
+def generate_synthetic_data(num_samples=1000, image_size=(256, 256)):
+    """Generate synthetic images and masks for testing"""
+    os.makedirs("data/raw/images", exist_ok=True)
+    os.makedirs("data/raw/masks", exist_ok=True)
+
+    for i in tqdm(range(num_samples)):
+        # Generate synthetic image
+        image = np.random.randint(0, 255, (*image_size, 3), dtype=np.uint8)
+
+        # Add some shapes
+        center = (np.random.randint(50, image_size[0]-50),
+                 np.random.randint(50, image_size[1]-50))
+        radius = np.random.randint(20, 80)
+        color = tuple(np.random.randint(0, 255, 3).tolist())
+
+        cv2.circle(image, center, radius, color, -1)
+
+        # Generate corresponding mask
+        mask = np.zeros(image_size, dtype=np.uint8)
+        cv2.circle(mask, center, radius, 255, -1)
+
+        # Save files
+        cv2.imwrite(f"data/raw/images/image_{i:04d}.jpg", image)
+        cv2.imwrite(f"data/raw/masks/mask_{i:04d}.png", mask)
+
+if __name__ == "__main__":
+    generate_synthetic_data()
